@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
@@ -17,15 +18,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        button_ready = findViewById(R.id.button_ready);
+        //making fullscreen
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        button_ready = findViewById(R.id.button_ready);
         button_ready.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Game.class);
+                Intent intent = new Intent(MainActivity.this, GameLaunch.class);
                 startActivity(intent);
 
-                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+                //animation between two activities
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
     }
