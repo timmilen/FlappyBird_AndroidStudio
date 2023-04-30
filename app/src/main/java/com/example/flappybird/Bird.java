@@ -15,6 +15,8 @@ public class Bird {
     private double cordsX;
     private double cordsY;
 
+    //TODO: make physics for bird
+
     public Bird(Context context, double cordsX, double cordsY, int drawable) {
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), drawable);
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);

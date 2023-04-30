@@ -9,11 +9,17 @@ import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 
+import java.util.Random;
+
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private GameProcess gameProcess;
     private Bird bird;
-    private Pipes lower_pipe;
-    private Pipes upper_pipe;
+    private Pipes pipe;
+    private Pipes pipe1;
+    private Pipes pipe2;
+    private Random random = new Random();
+    public static int screenHeight;
+    public static int screenWidth;
 
     public Game(Context context) {
         super(context);
@@ -25,16 +31,19 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        int screenHeight = displayMetrics.heightPixels;
-        int screenWidth = displayMetrics.widthPixels;
+        screenHeight = displayMetrics.heightPixels;
+        screenWidth = displayMetrics.widthPixels;
 
-        gameProcess = new GameProcess( surfaceHolder, this);
+        gameProcess = new GameProcess(surfaceHolder, this);
         setFocusable(true);
 
         bird = new Bird(getContext(), screenWidth/12, screenHeight/2, R.drawable.bluebird_2);
-        upper_pipe = new Pipes(getContext(), 1500, 0, R.drawable.pipe_upper);
-        lower_pipe = new Pipes(getContext(), 1500, 0+2200, R.drawable.pipe_lower);
 
+        pipe = new Pipes(getContext(), screenWidth, -screenHeight/3 + random.nextInt(screenHeight/3), R.drawable.pipe);
+        pipe1 = new Pipes(getContext(), screenWidth+screenWidth/4*3,   -screenHeight/3 + random.nextInt(screenHeight/3), R.drawable.pipe);
+
+        pipe.start();
+        pipe1.start();
 
     }
 
@@ -55,8 +64,10 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update() throws InterruptedException {
         bird.update();
-        lower_pipe.update();
-        upper_pipe.update();
+
+        pipe.update();
+        pipe1.update();
+
     }
 
     @Override
@@ -64,8 +75,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
 
         bird.draw(canvas);
-        lower_pipe.draw(canvas);
-        upper_pipe.draw(canvas);
+
+        pipe.draw(canvas);
+        pipe1.draw(canvas);
     }
 
 
