@@ -7,10 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageButton;
+import android.widget.Button;
+
 
 public class MainActivity extends AppCompatActivity {
-    ImageButton button_ready;
+    Button button_ready;
 
     @SuppressLint("MissingInflatedId")
     @Override

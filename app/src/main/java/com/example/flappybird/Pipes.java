@@ -20,7 +20,6 @@ public class Pipes extends Thread {
     private Random random = new Random();
     private double cordsX;
     private double cordsY;
-    private int count = 0;
     private boolean isRunning = true;
 
     //TODO: make hitboxes for pipes
