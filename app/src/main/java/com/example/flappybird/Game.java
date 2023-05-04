@@ -46,9 +46,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         pipe.start();
         pipe1.start();
-
-
     }
+
+
 
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder surfaceHolder) {
@@ -70,6 +70,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         pipe.update();
         pipe1.update();
+
 
     }
 
@@ -98,5 +99,13 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         }
 
         return super.onTouchEvent(event);
+    }
+
+    public void setPipe(Pipes pipe) {
+        this.pipe = pipe;
+    }
+
+    public void setPipe1(Pipes pipe1) {
+        this.pipe1 = pipe1;
     }
 }

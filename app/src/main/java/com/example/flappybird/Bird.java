@@ -1,5 +1,10 @@
 package com.example.flappybird;
 
+import static com.example.flappybird.Game.screenHeight;
+import static com.example.flappybird.Pipes.isRunningPipes;
+import static com.example.flappybird.Pipes.pipeCordsX;
+import static com.example.flappybird.Pipes.pipeCordsY;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,27 +17,27 @@ public class Bird extends Thread {
     private Paint paint;
     private Context context;
     private Bitmap bitmap;
-    private double cordsX;
-    private double cordsY;
-    private boolean isRunning = true;
+    public static double birdCordsX;
+    public static double birdCordsY;
+    public static boolean isRunningBird = true;
     private final double GRAVITY_ACCELARATION = 0.05;
     private final double JUMP_ACCELARATION = 10;
     private double gravitySpeed = 0.00;
     private boolean isPressed;
 
-    //TODO: make hitboxe for bird
+    //TODO: make hitbox for bird
 
     public Bird(Context context, double cordsX, double cordsY, int drawable) {
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), drawable);
         bitmap = Bitmap.createScaledBitmap(bitmap, WIDTH, HEIGHT, false);
-        this.cordsX = cordsX;
-        this.cordsY = cordsY;
+        this.birdCordsX = cordsX;
+        this.birdCordsY = cordsY;
         this.context = context;
         paint = new Paint();
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(bitmap, (float) cordsX, (float) cordsY, paint);
+        canvas.drawBitmap(bitmap, (float) birdCordsX, (float) birdCordsY, paint);
     }
 
     public void update() {
@@ -40,14 +45,14 @@ public class Bird extends Thread {
     }
 
     public void run() {
-        while (isRunning) {
+        while (isRunningBird) {
             gravitySpeed += GRAVITY_ACCELARATION;
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            cordsY += gravitySpeed;
+            birdCordsY += gravitySpeed;
 
 
             if (isPressed) {
@@ -60,7 +65,7 @@ public class Bird extends Thread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    cordsY -= gravitySpeed;
+                    birdCordsY -= gravitySpeed;
 
                 }
 
@@ -72,12 +77,18 @@ public class Bird extends Thread {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    cordsY += gravitySpeed;
+                    birdCordsY += gravitySpeed;
                 }
 
                 setSprite(context, R.drawable.bluebird_upflap);
                 gravitySpeed = 2.5;
                 isPressed = false;
+            }
+
+            if (Hitboxes.hitCheck(birdCordsX, birdCordsY, pipeCordsX, pipeCordsY)) {
+                isRunningPipes = false;
+                isRunningBird = false;
+                setSprite(context, R.drawable.bluebird_death);
             }
 
         }

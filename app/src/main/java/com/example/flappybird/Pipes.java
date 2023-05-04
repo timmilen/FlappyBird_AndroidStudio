@@ -18,22 +18,22 @@ public class Pipes extends Thread {
     private Paint paint;
     private Bitmap bitmap;
     private Random random = new Random();
-    private double cordsX;
-    private double cordsY;
-    private boolean isRunning = true;
+    public static double pipeCordsX;
+    public static double pipeCordsY;
+    public static boolean isRunningPipes = true;
 
     //TODO: make hitboxes for pipes
 
     public Pipes(Context context, double cordsX, double cordsY, int drawable) {
         this.bitmap = BitmapFactory.decodeResource(context.getResources(), drawable);
         bitmap = Bitmap.createScaledBitmap(bitmap, WIDTH, HEIGHT, false);
-        this.cordsX = cordsX;
-        this.cordsY = cordsY;
+        this.pipeCordsX = cordsX;
+        this.pipeCordsY = cordsY;
         paint = new Paint();
     }
 
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(bitmap, (float) cordsX, (float) cordsY, paint);
+        canvas.drawBitmap(bitmap, (float) pipeCordsX, (float) pipeCordsY, paint);
     }
 
     public void update() {
@@ -41,20 +41,27 @@ public class Pipes extends Thread {
     }
 
     public void run() {
-        while (isRunning) {
-            cordsX -= 0.5;
+        while (isRunningPipes) {
+            pipeCordsX -= 0.5;
             try {
                 Thread.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
 
-            if (cordsX < -740) {
-                cordsX = screenWidth;
-                cordsY = -screenHeight/3 + random.nextInt(screenHeight/3);
+            if (pipeCordsX < -740) {
+                pipeCordsX = screenWidth;
+                pipeCordsY = -screenHeight/3 + random.nextInt(screenHeight/3);
+                System.out.println(pipeCordsY);
             }
 
         }
     }
+
+
+    public void setRunningPipes(boolean runningPipes) {
+        isRunningPipes = runningPipes;
+    }
+
 
 }
